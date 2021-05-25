@@ -231,48 +231,10 @@ add_action('wp_head', 'tms_template');
 function tms_template() {
 	if( !is_admin() && current_user_can( 'administrator') ):
 		if(tms_get_theme_option('debug_template') == 'on'):
-		//	global $template;
-    //        $templateName = (get_page_template_slug( get_queried_object_id() ) )? '<br>Template name: ' .  get_queried_object_id() .  basename( get_page_template() ) .   get_page_template_slug( get_queried_object_id() ) . '<br>' : '<br>';
-	 	//	echo basename($template) . $templateName;
-			 // get_page_template_slug( get_queried_object_id() );
-			//echo '<h1>' . myprefix_get_theme_option('debug_template') . '</h1>';
+		
 
-	//	global $template;
-		//	$templateName =  (get_page_template_slug( get_queried_object_id() ) )? '<br>Template name: ' .  get_queried_object_id() .  basename( get_page_template() ) .
-		//	get_page_template_slug( get_queried_object_id() ) . '<br>' : '<br>';
-			// wp_basename($template)
-
-// str_replace(".php","",get_page_template_slug())
-
-		//	echo  '<h1>' .    . '</h1>';
-		// get_template_directory_uri()
-
-// $post = get_post( $post );
-
-	    // $the_templ =  '<strong style="background-color: #CCC;padding:10px">TEMPLATE = '.  basename( $template ) . '</strong><br />';
-
-
-		//	 echo  '<h1>' .  get_theme_root()  . '</h1>';
-		//	 echo  '<h1>' .  get_page_template(get_queried_object_id())  . '</h1>';
-
-			 // allar page templates
-			// $templates = wp_get_theme()->get_page_templates();
-			 //var_dump(wp_get_theme());
-
-		//	 var_dump($templates);
-	   //     $template_name = str_replace( " ", "-", strtolower( $templates[$template] ) );
-
-
-			//	echo $the_templ . ' <p>' .$template_name. '</p>';
-
-//apply_filters( 'template_directory_uri', $template_dir_uri, $template, $theme_root_uri );
-		//	echo	get_page_template_slug(get_queried_object_id());
-
-global $template;
-
-	$templateName =  tmw_debug_get_template_name(get_queried_object_id());
-
-	$templateNameStr = $templateName ?	'Template name: ' . tmw_debug_get_template_name(get_queried_object_id()) . '<br />' : '';
+		$templateName =  tmw_debug_get_template_name(get_queried_object_id());
+		$templateNameStr = $templateName ?	'Template name: ' . tmw_debug_get_template_name(get_queried_object_id()) . '<br />' : '';
 
 		echo '<div style="background-color: #CCC;padding:10px;position:absolute;left:0px;top:50px;z-index:1;"><div class="position:relative;top:80px;">' .
 		$templateNameStr .
@@ -409,7 +371,7 @@ if (!function_exists('var_dump_pre')) {
         }
         elseif($on == 'off')
         {
-            // ekki gera neitt
+           // stop
         }
 
     }
@@ -417,164 +379,3 @@ if (!function_exists('var_dump_pre')) {
 
 
 
-
-/*
-
-function Zumper_widget_enqueue_script() {
-	$send_array = array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			//'featured' => $termFeatured, //'http://localhost:8888/tripical-v2/wp-content/uploads/2017/03/bitmap.png',//$image,
-			//'nonce' => $nonce
-
-	);
-	wp_localize_script( 'my_custom_script', 'frontend_ajax_object', $send_array );
-    wp_enqueue_script( 'my_custom_script',   WP_CONTENT_URL . '/mu-plugins/debug.js', array('jquery') );
-
-
-}
-add_action('wp_enqueue_scripts', 'Zumper_widget_enqueue_script');
-
-
-
-
-
-add_action('wp_ajax_nopriv_prufajs', 'prufajs');
-add_action('wp_ajax_prufajs', 'prufajs');
-
-if (!function_exists('prufajs')) {
-	function prufajs(){
-		$foo = $_POST['log'];
-		$label = $_POST['label'];
-		tms_log($foo, $label);
-		$arrayName = array('hello' =>'Hello');
-		$json = '
-		{
-		    "MyJSon": {
-		        "activityId": 99,
-		        "startTimeId": 1246,
-		        "date": "2017-06-17",
-		        "flexibleDayOption": null,
-		        "pickup": false,
-		        "pickupPlaceId": null,
-		        "pickupPlaceDescription": null,
-		        "pickupPlaceRoomNumber": null,
-		        "dropoff": false,
-		        "dropoffPlaceId": null,
-		        "dropoffPlaceDescription": null,
-		        "pricingCategoryBookings": [{
-		            "pricingCategoryId": 102,
-		            "extras": []
-		        }],
-		        "extras": []
-		    }
-		}
-		';
-		echo $json;//json_encode($ret);
-
-		die();
-	}
-
-}
-
-
-*/
-
-
-
-
-// global varibles js
-// https://wordpress.stackexchange.com/questions/119573/is-it-possible-to-use-wp-localize-script-to-create-global-js-variables-without-a
-/*
-function my_js_variables(){
-    ?>
-    <script>
-    var ajaxurl = <?php echo json_encode( admin_url( "admin-ajax.php" ) ) ?>;
-    var ajaxnonce = <?php echo json_encode( wp_create_nonce( "itr_ajax_nonce" ) ) ?>;
-    var myarray = <?php echo json_encode( array(
-        'food' => 'bard',
-        'bard' => false,
-        'quux' => array( 1, 2, 3, ),
-    ) ) ?>;
-    </script>
-    <?php
-}
-add_action ( 'wp_head', 'my_js_variables' );
-
-*/
-/*
-//Multiline error log class
-// ersin güvenç 2008 eguvenc@gmail.com
-//For break use "\n" instead '\n'
-// http://php.net/manual/en/function.error-log.php
-
-Class log {
-  //
-  const USER_ERROR_DIR = '/home/site/error_log/Site_User_errors.log';
-  const GENERAL_ERROR_DIR = '/home/site/error_log/Site_General_errors.log';
-
-
-//   User Errors...
-
-    public function user($msg,$username)
-    {
-    $date = date('d.m.Y h:i:s');
-    $log = $msg."   |  Date:  ".$date."  |  User:  ".$username."\n";
-    error_log($log, 3, self::USER_ERROR_DIR);
-    }
-
-//   General Errors...
-
-    public function general($msg)
-    {
-    $date = date('d.m.Y h:i:s');
-    $log = $msg."   |  Date:  ".$date."\n";
-    error_log($msg."   |  Tarih:  ".$date, 3, self::GENERAL_ERROR_DIR);
-    }
-
-}
-
-$log = new log();
-$log->user($msg,$username); //use for user errors
-//$log->general($msg); //use for general errors
-*/
-
-
-
-/*
-
-
-
-add_action('wp_head', 'tms_menu_debug');
-function tms_menu_debug() {
-	if( !is_admin() ):
-    $menu_items = wp_get_nav_menu_items( 'main-menu' );
-    echo '<pre>';
-  /*  foreach( $menu_items as $item ) {
-      print_r( $item ) ; // see what you can work with
-      // carry on
-    }*/
-/*
-$this_item = current( wp_filter_object_list( $menu_items, array( 'object_id' => get_queried_object_id() ) ) );
-//echo print_r($this_item->classes);
-var_dump($this_item);
-//$this_item->classes[] = 'active ';
-//tms_log($this_item, 'this');
-    echo '</pre>';
-	endif;
-}
-*/
-
-
-
-/*
-
-If you need reverse engineering to find all the pages that are working under a particular page template filename, this is one solution that may work for you.
-
-function wpdocs_get_pages_by_template_filename( $page_template_filename ) {
-    return get_pages( array(
-        'meta_key' => '_wp_page_template',
-        'meta_value' => $page_template_filename
-    ) );
-}
-
-*/
