@@ -417,10 +417,10 @@ if ( !function_exists('tms_add_template_column_content')) {
 							$post = get_post( $post_id );
 							//esc_html( $post->ID )
 
-							$templateName =  tmw_debug_get_template_name(get_queried_object_id());
-							$templateNameStr = $templateName ?	'name: <strong>' . tmw_debug_get_template_name(get_queried_object_id()) . '</strong><br />' : '';
+							$templateName =  tmw_debug_get_template_name($post_id);
+							$templateNameStr = $templateName ?	'name: <strong>' . tmw_debug_get_template_name($post_id) . '</strong><br />' : '';
 
-							echo $templateNameStr . 'path: <strong>' . str_replace(get_theme_root(), '',  get_page_template(get_queried_object_id())) . '</strong>';
+							echo $templateNameStr . 'path: <strong>' . str_replace(get_theme_root(), '',  get_page_template($post_id)) . '</strong>';
 							?>
 
 							<?php
