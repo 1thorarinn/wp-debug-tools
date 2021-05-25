@@ -81,12 +81,21 @@ if ( ! class_exists( 'TMS_Debug_Settings' ) ) {
 
         <table class="form-table wpex-custom-admin-login-table">
 
-          <?php // Checkbox example ?>
+          <?php // Template debug ?>
          <tr valign="top">
             <th scope="row"><?php esc_html_e( 'Template debug', 'text-domain' ); ?></th>
             <td>
               <?php  $value = self::get_theme_option( 'debug_template' );  // checkbox_example?>
               <input type="checkbox" name="theme_options[debug_template]" <?php  checked( $value, 'on' ); ?>> <?php  esc_html_e( 'Template debug mode.', 'text-domain' ); ?>
+            </td>
+          </tr>
+
+					<?php // Template column in page table row ?>
+         <tr valign="top">
+            <th scope="row"><?php esc_html_e( 'Template in page table column', 'text-domain' ); ?></th>
+            <td>
+              <?php  $value = self::get_theme_option( 'debug_template_table_col' );  // checkbox_example?>
+              <input type="checkbox" name="theme_options[debug_template_table_col]" <?php  checked( $value, 'on' ); ?>> <?php  esc_html_e( 'Template page column debug mode.', 'text-domain' ); ?>
             </td>
           </tr>
 
@@ -170,6 +179,15 @@ if ( ! class_exists( 'TMS_Debug_Settings' ) ) {
 				unset( $options['debug_js'] ); // Remove from options if not checked
 			}
 
+
+
+			if ( ! empty( $options['debug_template_table_col'] ) ) {
+				$options['debug_template_table_col'] = 'on';
+			} else {
+				unset( $options['debug_template_table_col'] ); // Remove from options if not checked
+			}
+
+
       // Input
      /* if ( ! empty( $options['input_example'] ) ) {
         $options['input_example'] = sanitize_text_field( $options['input_example'] );
@@ -231,12 +249,12 @@ add_action('wp_head', 'tms_template');
 function tms_template() {
 	if( !is_admin() && current_user_can( 'administrator') ):
 		if(tms_get_theme_option('debug_template') == 'on'):
-		
+
 
 		$templateName =  tmw_debug_get_template_name(get_queried_object_id());
 		$templateNameStr = $templateName ?	'Template name: ' . tmw_debug_get_template_name(get_queried_object_id()) . '<br />' : '';
 
-		echo '<div style="background-color: #CCC;padding:10px;position:absolute;left:0px;top:50px;z-index:1;"><div class="position:relative;top:80px;">' .
+		echo '<div style="background-color: #CCC;padding:10px;position:absolute;right:0px;top:50px;z-index:9999999;"><div class="position:relative;top:80px;">' .
 		$templateNameStr .
 
 		'Template path: ' . str_replace(get_theme_root(), '',  get_page_template(get_queried_object_id())) . '</div></div>';
@@ -256,7 +274,6 @@ function tms_js() {
 	if( !is_admin() ):
 		if(tms_get_theme_option('debug_js') === 'on'):
 		/*	global $wp_scripts;
-
 			echo '<pre>';
 			//var_dump($wp_scripts->registered);
 			echo '</pre>';
@@ -379,3 +396,42 @@ if (!function_exists('var_dump_pre')) {
 
 
 
+
+
+if ( !function_exists('tms_add_template_column_content')) {
+
+		if(tms_get_theme_option('debug_template_table_col') == 'on'){
+
+						function tms_add_template_column( $columns ) {
+						  $columns['tms_template_info'] = 'Template info';
+						  return $columns;
+						}
+
+
+						/* Display custom column's content */
+						function tms_add_template_column_content( $column, $post_id ) {
+						  //We will check whether the column is our defined column above by name
+						  if ( 'tms_template_info' === $column ) {
+
+
+							$post = get_post( $post_id );
+							//esc_html( $post->ID )
+
+							$templateName =  tmw_debug_get_template_name(get_queried_object_id());
+							$templateNameStr = $templateName ?	'name: <strong>' . tmw_debug_get_template_name(get_queried_object_id()) . '</strong><br />' : '';
+
+							echo $templateNameStr . 'path: <strong>' . str_replace(get_theme_root(), '',  get_page_template(get_queried_object_id())) . '</strong>';
+							?>
+
+							<?php
+						  }
+						}
+
+						// for posts
+						add_filter( 'manage_posts_columns', 'tms_add_template_column' );
+						add_action( 'manage_posts_custom_column', 'tms_add_template_column_content', 10, 2 );
+						// for pages
+						add_filter( 'manage_pages_columns', 'tms_add_template_column' );
+						add_action( 'manage_pages_custom_column', 'tms_add_template_column_content', 10, 2 );
+		}
+}
