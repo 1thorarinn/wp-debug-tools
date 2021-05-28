@@ -250,14 +250,28 @@ function tms_template() {
 	if( !is_admin() && current_user_can( 'administrator') ):
 		if(tms_get_theme_option('debug_template') == 'on'):
 
+			global $template;
+				//		$templateName =  (get_page_template_slug( get_queried_object_id() ) )? '<br>Template name: ' .  get_queried_object_id() .  basename( get_page_template() ) .
+
+//			           $templateNameStr .= str_replace(".php","",get_page_template_slug());
+
+
+//$templateNameStr = basename( get_page_template());//get_page_template_slug( get_queried_object_id() );
+
+$templatePath = (get_page_template_slug( get_queried_object_id() ) )? '<br>Template name: ' .  get_page_template_slug( get_queried_object_id() ) . '<br>' : '<br>';
+	 		$templatePathStr = str_replace(get_theme_root(), '', $template);
+
 
 		$templateName =  tmw_debug_get_template_name(get_queried_object_id());
-		$templateNameStr = $templateName ?	'Template name: ' . tmw_debug_get_template_name(get_queried_object_id()) . '<br />' : '';
+		$templateNameStr .= $templateName ?	'Template name: ' . tmw_debug_get_template_name(get_queried_object_id()) . '<br />' : '<br />';
 
 		echo '<div style="background-color: #CCC;padding:10px;position:absolute;right:0px;top:50px;z-index:9999999;"><div class="position:relative;top:80px;">' .
+		'Template path: ' . $templatePathStr . '<br>' .
 		$templateNameStr .
 
-		'Template path: ' . str_replace(get_theme_root(), '',  get_page_template(get_queried_object_id())) . '</div></div>';
+	//	'Template path: ' . str_replace(get_theme_root(), '',  get_page_template(get_queried_object_id())) .
+
+		'</div></div>';
 
 
 
